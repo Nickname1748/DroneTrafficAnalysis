@@ -6,38 +6,38 @@ class Car:
         self.origin = origin
         self.dest = dest
     
-    def route(self, M):
-        W = [1000000]*81
-        V = [False]*81
+    def route(self, Matrix):
+        Weight = [1000000]*81
+        Visited = [False]*81
         origin = place_to_id(self.origin)
         dest = place_to_id(self.dest)
-        N = []
+        Nearest = []
         for i in range(81):
-            N.append(origin)
-        W[origin] = 0
+            Nearest.append(origin)
+        Weight[origin] = 0
         current = origin
         for k in range(81):
-            V[current] = True
+            Visited[current] = True
             for i in range(81):
-                if not V[i]:
-                    if W[current]+M[current][i] < W[i]:
-                        W[i] = W[current]+M[current][i]
-                        N[i] = current
+                if not Visited[i]:
+                    if Weight[current]+Matrix[current][i] < Weight[i]:
+                        Weight[i] = Weight[current]+Matrix[current][i]
+                        Nearest[i] = current
             mini = -1
             minx = 1000000
             for i in range(81):
-                if W[i] < minx and not V[i]:
+                if Weight[i] < minx and not Visited[i]:
                     mini = i
-                    minx = W[i]
+                    minx = Weight[i]
             current = mini
-        R = [dest]
+        Route = [dest]
         current = dest
         while current != origin:
-            R.insert(0, N[current])
-            M[N[current]][current] += 2
-            current = N[current]
-        self.R = R
-        return M
+            Route.insert(0, Nearest[current])
+            Matrix[Nearest[current]][current] += 2
+            current = Nearest[current]
+        self.Route = Route
+        return Matrix
 
 def place_to_id(place):
     row = place[0]
@@ -66,28 +66,28 @@ def rand_place():
     side = random.randint(0, 3)
     return (row, col, side)
 
-M = []
+Matrix = []
 
 Cars = []
 
 def init_matrix(weight):
-    global M
+    global Matrix
     for i in range(81):
-        R = [1000000]*81
+        Row = [1000000]*81
         if(i >= 9):
-            R[i-9] = 5
+            Row[i-9] = 5
         if(i < 72):
-            R[i+9] = 5
+            Row[i+9] = 5
         if(i%9 != 0):
-            R[i-1] = 5
+            Row[i-1] = 5
         if(i%9 != 8):
-            R[i+1] = 5
-        M.append(R)
+            Row[i+1] = 5
+        Matrix.append(Row)
 
 def create_car():
     speed = random.randint(2, 4)
     origin = rand_place()
     dest = rand_place()
     new_car = Car(speed, origin, dest)
-    global M
-    M = new_car.route(M)
+    global Matrix
+    Matrix = new_car.route(Matrix)
