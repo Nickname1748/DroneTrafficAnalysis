@@ -39,6 +39,42 @@ class Car:
         self.Route = Route
         return Matrix
 
+    def get_points(self):
+        Route = self.Route
+        Points = []
+        init_coords = place_to_coords(self.origin)
+        Points.append(init_coords)
+
+        init_coords = list(init_coords)
+        side = self.origin[2]
+        if side == 0:
+            init_coords[1] -= 10
+        elif side == 1:
+            init_coords[0] += 10
+        elif side == 2:
+            init_coords[1] += 10
+        else:
+            init_coords[0] -= 10
+        Points.append(tuple(init_coords))
+
+        for node in Route:
+            Points.append(node_to_coords(node))
+
+        init_coords = list(place_to_coords(self.dest, reverse=True))
+        side = self.dest[2]
+        if side == 0:
+            init_coords[0] += 10
+        elif side == 1:
+            init_coords[1] += 10
+        elif side == 2:
+            init_coords[0] -= 10
+        else:
+            init_coords[1] -= 10
+        Points.append(tuple(init_coords))
+
+        Points.append(place_to_coords(self.dest, reverse=True))
+        return Points
+
 def place_to_id(place):
     row = place[0]
     col = place[1]
@@ -59,6 +95,44 @@ def place_to_id(place):
     
     id = i*9 + j
     return id
+
+def place_to_coords(place, reverse=False):
+    row = place[0]
+    col = place[1]
+    side = place[2]
+
+    x = 120 + 200*col
+    y = 120 + 200*row
+
+    if reverse:
+        if side == 0:
+            x += 90
+        elif side == 1:
+            y += 90
+        elif side == 2:
+            x -= 90
+        else:
+            y -= 90
+    else:
+        if side == 0:
+            y -= 90
+        elif side == 1:
+            x += 90
+        elif side == 2:
+            y += 90
+        else:
+            x -= 90
+    
+    return (x, y)
+
+def node_to_coords(id):
+    row = id // 9
+    col = id % 9
+    
+    x = 20 + 200*col
+    y = 20 + 200*row
+
+    return (x, y)
 
 def rand_place():
     row = random.randint(0, 7)
@@ -91,3 +165,7 @@ def create_car():
     new_car = Car(speed, origin, dest)
     global Matrix
     Matrix = new_car.route(Matrix)
+    Cars.append(new_car)
+
+def get_cars():
+    return Cars

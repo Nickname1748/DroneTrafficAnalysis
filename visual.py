@@ -13,5 +13,9 @@ def init_canvas(window):
     canvas.pack()
     return canvas
 
+def draw_path(canvas, Points):
+    pts = [item for point in Points for item in point]
+    canvas.create_line(*pts, width=3)
+
 def end(window):
     window.mainloop()
