@@ -5,7 +5,7 @@ class Car:
         self.speed = speed
         self.origin = origin
         self.dest = dest
-    
+
     def route(self, Matrix, nodes):
         Weight = [1000000]*nodes
         Visited = [False]*nodes
@@ -17,11 +17,11 @@ class Car:
         Weight[origin] = 0
         current = origin
 
-        while range(nodes):
+        for k in range(nodes):
             Visited[current] = True
 
             for i in range(nodes):
-                if not Visited[i] and (Weight[current] 
+                if not Visited[i] and (Weight[current]
                                     + Matrix[current][i] < Weight[i]):
                     Weight[i] = Weight[current] + Matrix[current][i]
                     Nearest[i] = current
@@ -48,16 +48,19 @@ class Car:
 
 def place_to_id(place):
     row, col, side = place[0], place[1], place[2]
-    
+
     if side == 0:
         i, j = row, col + 1
+
     elif side == 1:
         i, j = row + 1, col + 1
+
     elif side == 2:
         i, j = row + 1, col
+
     else:
         i, j = row, col
-    
+
     id = i*9 + j
     return id
 
@@ -72,16 +75,22 @@ Cars = []
 
 def init_matrix(weight, nodes):
     global Matrix
+
     for i in range(nodes):
         Row = [1000000]*nodes
-        if(i >= 9):
+
+        if i >= 9:
             Row[i - 9] = 5
-        if(i < 72):
+
+        if i < 72:
             Row[i + 9] = 5
-        if(i%9 != 0):
+
+        if i%9 != 0:
             Row[i - 1] = 5
-        if(i%9 != 8):
+
+        if i%9 != 8:
             Row[i + 1] = 5
+
         Matrix.append(Row)
 
 def create_car():
