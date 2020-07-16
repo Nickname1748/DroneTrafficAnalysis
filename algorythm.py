@@ -39,7 +39,7 @@ class Car:
         self.Route = Route
         return Matrix
 
-    def get_points(self):
+    def set_points(self):
         Route = self.Route
         Points = []
         init_coords = place_to_coords(self.origin)
@@ -73,7 +73,46 @@ class Car:
         Points.append(tuple(init_coords))
 
         Points.append(place_to_coords(self.dest, reverse=True))
-        return Points
+        self.Points = Points
+
+    def get_points(self):
+        return self.Points
+    
+    def set_movement_points(self):
+        Points = self.Points
+        MPoints = []
+        for i in range(len(Points)-1):
+            X, Y = [], []
+            if Points[i][0] == Points[i+1][0]:
+                if Points[i][1] < Points[i+1][1]:
+                    Y = list(range(Points[i][1], Points[i+1][1], self.speed))
+                    X = [Points[i][0]-5]*len(Y)
+                else:
+                    Y = list(range(Points[i][1], Points[i+1][1], -self.speed))
+                    X = [Points[i][0]+5]*len(Y)
+            else:
+                if Points[i][0] < Points[i+1][0]:
+                    X = list(range(Points[i][0], Points[i+1][0], self.speed))
+                    Y = [Points[i][1]+5]*len(X)
+                else:
+                    X = list(range(Points[i][0], Points[i+1][0], -self.speed))
+                    Y = [Points[i][1]-5]*len(X)
+            MPoints.extend(zip(X, Y))
+        self.MPoints = MPoints
+
+    def get_movement_points(self):
+        return self.MPoints
+    
+    def set_movement_offsets(self):
+        MPoints = self.MPoints
+        MOffsets = []
+        MOffsets.append(tuple((MPoints[0][0]+5, MPoints[0][1]+5)))
+        for i in range(1, len(MPoints)):
+            MOffsets.append(tuple((MPoints[i][0]-MPoints[i-1][0], MPoints[i][1]-MPoints[i-1][1])))
+        self.MOffsets = MOffsets
+    
+    def get_movement_offsets(self):
+        return self.MOffsets
 
 def place_to_id(place):
     row = place[0]
@@ -165,6 +204,9 @@ def create_car():
     new_car = Car(speed, origin, dest)
     global Matrix
     Matrix = new_car.route(Matrix)
+    new_car.set_points()
+    new_car.set_movement_points()
+    new_car.set_movement_offsets()
     Cars.append(new_car)
 
 def get_cars():
