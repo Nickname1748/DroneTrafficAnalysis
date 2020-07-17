@@ -1,4 +1,5 @@
 import tkinter
+import time
 
 def init_window():
     window = tkinter.Tk()
@@ -14,6 +15,32 @@ def init_canvas(window):
 
     canvas.pack()
     return canvas
+
+def draw_path(canvas, Points):
+    pts = [item for point in Points for item in point]
+    canvas.create_line(*pts, width=3, fill='gray')
+
+def animate_cars(canvas, MPaths, Times):
+    timer = 0
+    CarModels = []
+    for i in range(len(MPaths)):
+        CarModels.append(canvas.create_oval(-10, -10, 0, 0, fill='black'))
+    while(True):
+        stop = True
+        for i in range(len(CarModels)):
+            if len(MPaths[i]) > 0:
+                stop = False
+                if timer >= Times[i]:
+                    canvas.move(CarModels[i], *MPaths[i][0])
+                    MPaths[i].pop(0)
+        if stop:
+            break
+        canvas.update()
+        timer += 1
+        time.sleep(0.02)
+
+
+
 
 def end(window):
     window.mainloop()
