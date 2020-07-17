@@ -1,12 +1,24 @@
 import random
 
 class Car:
+    '''
+    Car object represents one individual car simulation.
+    '''
+
     def __init__(self, speed, origin, dest):
+        '''
+        Initialize a Car class instance with basic attiributes.
+        '''
+
         self.speed = speed
         self.origin = origin
         self.dest = dest
 
     def route(self, Matrix, nodes):
+        '''
+        Generate efficient path from origin to destination.
+        '''
+
         Weight = [1000000]*nodes
         Visited = [False]*nodes
 
@@ -47,6 +59,10 @@ class Car:
         return Matrix
 
     def set_points(self):
+        '''
+        Generate simple canvas path from route.
+        '''
+
         Route = self.Route
         Points = []
         init_coords = place_to_coords(self.origin)
@@ -83,9 +99,17 @@ class Car:
         self.Points = Points
 
     def get_points(self):
+        '''
+        Get simple canvas path from Car instance.
+        '''
+
         return self.Points
     
     def set_movement_points(self):
+        '''
+        Generate detailed canvas path for Car from simple path.
+        '''
+
         Points = self.Points
         MPoints = []
         for i in range(len(Points)-1):
@@ -108,9 +132,17 @@ class Car:
         self.MPoints = MPoints
 
     def get_movement_points(self):
+        '''
+        Get detailed canvas path from Car instance.
+        '''
+
         return self.MPoints
     
     def set_movement_offsets(self):
+        '''
+        Generate detailed frame movements for Car from detailed canvas path.
+        '''
+
         MPoints = self.MPoints
         MOffsets = []
         MOffsets.append(tuple((MPoints[0][0]+5, MPoints[0][1]+5)))
@@ -119,9 +151,17 @@ class Car:
         self.MOffsets = MOffsets
     
     def get_movement_offsets(self):
+        '''
+        Get detailed frame movements from Car instance.
+        '''
+
         return self.MOffsets
 
 def place_to_id(place):
+    '''
+    Convert place to nearest node ID.
+    '''
+
     row, col, side = place[0], place[1], place[2]
 
     if side == 0:
@@ -140,6 +180,10 @@ def place_to_id(place):
     return id
 
 def place_to_coords(place, reverse=False):
+    '''
+    Convert place to its canvas coordinates.
+    '''
+
     row = place[0]
     col = place[1]
     side = place[2]
@@ -169,6 +213,10 @@ def place_to_coords(place, reverse=False):
     return (x, y)
 
 def node_to_coords(id):
+    '''
+    Convert node ID to its canvas coordinates.
+    '''
+
     row = id // 9
     col = id % 9
     
@@ -178,6 +226,10 @@ def node_to_coords(id):
     return (x, y)
 
 def rand_place():
+    '''
+    Generates random place.
+    '''
+
     row = random.randint(0, 7)
     col = random.randint(0, 7)
     side = random.randint(0, 3)
@@ -187,6 +239,10 @@ Matrix = []
 Cars = []
 
 def init_matrix(weight, nodes):
+    '''
+    Initialize matrix of road graph.
+    '''
+
     global Matrix
 
     for i in range(nodes):
@@ -207,6 +263,10 @@ def init_matrix(weight, nodes):
         Matrix.append(Row)
 
 def create_car():
+    '''
+    Creates new Car instance, calculate its paths, and add it to common list.
+    '''
+
     speed = random.randint(2, 4)
     origin = rand_place()
     dest = rand_place()
@@ -219,4 +279,8 @@ def create_car():
     Cars.append(new_car)
 
 def get_cars():
+    '''
+    Get list of Car instances.
+    '''
+    
     return Cars

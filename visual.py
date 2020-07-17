@@ -2,10 +2,20 @@ import tkinter
 import time
 
 def init_window():
+    '''
+    Initialize main window.
+    '''
+
     window = tkinter.Tk()
+    window.title('DroneTrafficAnalysis')
+    window.resizable(False, False)
     return window
 
 def init_canvas(window):
+    '''
+    Initialize main canvas and roads.
+    '''
+
     canvas = tkinter.Canvas(window, bg='gray', width=1640, height=1640)
     canvas.create_rectangle(10, 10, 1630, 1630, fill='white')
 
@@ -16,11 +26,19 @@ def init_canvas(window):
     canvas.pack()
     return canvas
 
-def draw_path(canvas, Points):
+def display_path(canvas, Points):
+    '''
+    Display canvas path.
+    '''
+
     pts = [item for point in Points for item in point]
     canvas.create_line(*pts, width=3, fill='gray')
 
 def animate_cars(canvas, MPaths, Times):
+    '''
+    Animate all movements of cars.
+    '''
+
     timer = 0
     CarModels = []
     for i in range(len(MPaths)):
@@ -43,4 +61,8 @@ def animate_cars(canvas, MPaths, Times):
 
 
 def end(window):
+    '''
+    Main loop.
+    '''
+
     window.mainloop()
