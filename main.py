@@ -5,7 +5,7 @@ window = visual.init_window()
 canvas = visual.init_canvas(window)
 
 algorithm.init_matrix(5, 81)
-for i in range(100):
+for i in range(250):
     algorithm.create_car()
 Cars = algorithm.get_cars()
 

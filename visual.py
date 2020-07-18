@@ -53,13 +53,28 @@ def animate_cars(canvas, MPaths, Times):
                     curr_coord = Coords[i]
                     new_coord = (curr_coord[0] + MPaths[i][0][0], curr_coord[1] + MPaths[i][0][1])
                     free = True
-                    for j in range(len(Coords)):
-                        coord = Coords[j]
-                        if i == j:
-                            continue
-                        if abs(coord[0] - new_coord[0]) < 10 and abs(coord[1] - new_coord[1]) < 10:
-                            free = False
-                            break
+                    if ((curr_coord[0] % 200 <= 5 or curr_coord[0] % 200 >= 35
+                            or curr_coord[1] % 200 <= 5 or curr_coord[1] % 200 >= 35)
+                            and (new_coord[0] % 200 > 5 and new_coord[0] % 200 < 35
+                            and new_coord[1] % 200 > 5 and new_coord[1] % 200 < 35)):
+                        for j in range(len(Coords)):
+                            if i == j:
+                                continue
+                            cross_x = new_coord[0] // 200
+                            cross_y = new_coord[1] // 200
+                            coord = Coords[j]
+                            if (coord[0] > 200*cross_x + 5 and coord[0] < 200*cross_x + 35
+                                    and coord[1] > 200*cross_y + 5 and coord[1] < 200*cross_y + 35):
+                                free = False
+                                break
+                    else:
+                        for j in range(len(Coords)):
+                            if i == j:
+                                continue
+                            coord = Coords[j]
+                            if abs(coord[0] - new_coord[0]) < 10 and abs(coord[1] - new_coord[1]) < 10:
+                                free = False
+                                break
                     if free:
                         canvas.move(CarModels[i], *MPaths[i][0])
                         Coords[i] = new_coord
