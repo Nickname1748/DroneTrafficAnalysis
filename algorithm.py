@@ -111,55 +111,55 @@ class Car:
                 else: # Moving Left
                     Dirs.append(3)
 
-        if Dirs[0] == 0:
+        if Dirs[0] == 0: # Up
             TPoints.append((Points[0][0] + 5, Points[0][1]))
-        elif Dirs[0] == 1:
+        elif Dirs[0] == 1: # Right
             TPoints.append((Points[0][0], Points[0][1] + 5))
-        elif Dirs[0] == 2:
+        elif Dirs[0] == 2: # Down
             TPoints.append((Points[0][0] - 5, Points[0][1]))
-        else:
+        else: # Left
             TPoints.append((Points[0][0], Points[0][1] - 5))
 
         for i in range(len(Dirs) - 1):
             if Dirs[i] == Dirs[i+1]:
-                if Dirs[i] == 0:
+                if Dirs[i] == 0: # Up
                     TPoints.append((Points[i+1][0] + 5, Points[i+1][1]))
-                elif Dirs[i] == 1:
+                elif Dirs[i] == 1: # Right
                     TPoints.append((Points[i+1][0], Points[i+1][1] + 5))
-                elif Dirs[i] == 2:
+                elif Dirs[i] == 2: # Down
                     TPoints.append((Points[i+1][0] - 5, Points[i+1][1]))
-                else:
+                else: # Left
                     TPoints.append((Points[i+1][0], Points[i+1][1] - 5))
-            elif Dirs[i] == 0 or Dirs[i] == 2:
-                if Dirs[i+1] == 1:
+            elif Dirs[i] == 0 or Dirs[i] == 2: # Up or Down
+                if Dirs[i+1] == 1: # Right
                     TPoints.append((TPoints[-1][0], Points[i+1][1] + 5))
-                elif Dirs[i+1] == 3:
+                elif Dirs[i+1] == 3: # Left
                     TPoints.append((TPoints[-1][0], Points[i+1][1] - 5))
-                elif Dirs[i+1] == 0:
+                elif Dirs[i+1] == 0: # Up
                     TPoints.append((TPoints[-1][0], Points[i+1][1] + 5))
                     TPoints.append((TPoints[-1][0] + 10, Points[i+1][1] + 5))
-                else:
+                else: # Down
                     TPoints.append((TPoints[-1][0], Points[i+1][1] - 5))
                     TPoints.append((TPoints[-1][0] - 10, Points[i+1][1] - 5))
-            else:
-                if Dirs[i+1] == 0:
+            else: # Left or Right
+                if Dirs[i+1] == 0: # Up
                     TPoints.append((Points[i+1][0] + 5, TPoints[-1][1]))
-                elif Dirs[i+1] == 2:
+                elif Dirs[i+1] == 2: # Down
                     TPoints.append((Points[i+1][0] - 5, TPoints[-1][1]))
-                elif Dirs[i+1] == 1:
+                elif Dirs[i+1] == 1: # Right
                     TPoints.append((Points[i+1][0] - 5, TPoints[-1][1]))
                     TPoints.append((Points[i+1][0] - 5, TPoints[-1][1] + 10))
-                else:
+                else: # Left
                     TPoints.append((Points[i+1][0] + 5, TPoints[-1][1]))
                     TPoints.append((Points[i+1][0] + 5, TPoints[-1][1] - 10))
 
-        if Dirs[-1] == 0:
+        if Dirs[-1] == 0: # Up
             TPoints.append((Points[-1][0] + 5, Points[-1][1]))
-        elif Dirs[-1] == 1:
+        elif Dirs[-1] == 1: # Right
             TPoints.append((Points[-1][0], Points[-1][1] + 5))
-        elif Dirs[-1] == 2:
+        elif Dirs[-1] == 2: # Down
             TPoints.append((Points[-1][0] - 5, Points[-1][1]))
-        else:
+        else: # Left
             TPoints.append((Points[-1][0], Points[-1][1] - 5))
 
         self.TPoints = TPoints
@@ -185,21 +185,20 @@ class Car:
                 if TPoints[i][1] < TPoints[i+1][1]:
                     Y = list(range(TPoints[i][1], TPoints[i+1][1], self.speed))
                     Y.append(TPoints[i+1][1])
-                    X = [TPoints[i][0]]*len(Y)
                 else:
                     Y = list(range(TPoints[i][1], TPoints[i+1][1], -self.speed))
                     Y.append(TPoints[i+1][1])
-                    X = [TPoints[i][0]]*len(Y)
+                X = [TPoints[i][0]]*len(Y)
             else:
                 if TPoints[i][0] < TPoints[i+1][0]:
                     X = list(range(TPoints[i][0], TPoints[i+1][0], self.speed))
                     X.append(TPoints[i+1][0])
-                    Y = [TPoints[i][1]]*len(X)
                 else:
                     X = list(range(TPoints[i][0], TPoints[i+1][0], -self.speed))
                     X.append(TPoints[i+1][0])
-                    Y = [TPoints[i][1]]*len(X)
+                Y = [TPoints[i][1]]*len(X)
             MPoints.extend(zip(X, Y))
+
         self.MPoints = MPoints
 
     def get_movement_points(self):
@@ -319,16 +318,16 @@ def init_matrix(weight, nodes):
     for i in range(nodes):
         Row = [1000000]*nodes
 
-        if i >= 9:
+        if i >= 9: # Up
             Row[i - 9] = 5
 
-        if i < 72:
+        if i < 72: # Down
             Row[i + 9] = 5
 
-        if i%9 != 0:
+        if i%9 != 0: # Left
             Row[i - 1] = 5
 
-        if i%9 != 8:
+        if i%9 != 8: # Right
             Row[i + 1] = 5
 
         Matrix.append(Row)

@@ -56,7 +56,7 @@ def animate_cars(canvas, MPaths, Times):
                     if ((curr_coord[0] % 200 <= 5 or curr_coord[0] % 200 >= 35
                             or curr_coord[1] % 200 <= 5 or curr_coord[1] % 200 >= 35)
                             and (new_coord[0] % 200 > 5 and new_coord[0] % 200 < 35
-                            and new_coord[1] % 200 > 5 and new_coord[1] % 200 < 35)):
+                            and new_coord[1] % 200 > 5 and new_coord[1] % 200 < 35)): # Entering Intersection
                         for j in range(len(Coords)):
                             if i == j:
                                 continue
@@ -64,7 +64,7 @@ def animate_cars(canvas, MPaths, Times):
                             cross_y = new_coord[1] // 200
                             coord = Coords[j]
                             if (coord[0] > 200*cross_x + 5 and coord[0] < 200*cross_x + 35
-                                    and coord[1] > 200*cross_y + 5 and coord[1] < 200*cross_y + 35):
+                                    and coord[1] > 200*cross_y + 5 and coord[1] < 200*cross_y + 35): # Intersection is occupied
                                 free = False
                                 break
                     else:
@@ -88,9 +88,6 @@ def animate_cars(canvas, MPaths, Times):
         canvas.update()
         timer += 1
         time.sleep(0.02)
-
-
-
 
 def end(window):
     '''
